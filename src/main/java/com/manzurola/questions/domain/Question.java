@@ -1,11 +1,13 @@
 package com.manzurola.questions.domain;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Created by guym on 16/05/2017.
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Question {
 
     private final String id;
