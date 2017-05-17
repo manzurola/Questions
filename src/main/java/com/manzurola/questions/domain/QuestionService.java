@@ -5,6 +5,6 @@ package com.manzurola.questions.domain;
  */
 public interface QuestionService {
 
-    Question addQuestion(Question question) throws Exception;
+    void addQuestion(Question question) throws Exception;
 
 }
