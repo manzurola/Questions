@@ -32,7 +32,8 @@ public class QuestionServiceImpl implements QuestionService {
         }
 
         public String getType() {
-            return question.getType();
+            return null;
+//            return question.getType();
         }
 
         public Question getObject() {
