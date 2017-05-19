@@ -11,7 +11,7 @@
     <properties>
         <java.version>1.8</java.version>
         <dropwizard.version>1.1.0</dropwizard.version>
-        <spring.version>4.0.0.RELEASE</spring.version>
+        <spring.version>4.3.8.RELEASE</spring.version>
         <elastic.version>5.4.0</elastic.version>
         <log4j.version>2.7</log4j.version>
     </properties>
@@ -91,6 +91,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 

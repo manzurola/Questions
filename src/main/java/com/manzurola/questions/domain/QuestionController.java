@@ -11,9 +11,15 @@ import java.util.List;
  */
 @Path("/questions")
 @Produces(MediaType.APPLICATION_JSON)
-public class QuestionContoller {
+public class QuestionController {
 
-//    @GET
+    private final QuestionService service;
+
+    public QuestionController(QuestionService service) {
+        this.service = service;
+    }
+
+    //    @GET
 //    @Path("search")
 //    public List<Question> searchQuestions(QuestionSearchRequest request) {
 //        return null;
@@ -24,4 +30,5 @@ public class QuestionContoller {
     public String hello() {
         return "hi guy";
     }
+
 }
