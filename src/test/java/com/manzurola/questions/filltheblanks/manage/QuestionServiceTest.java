@@ -1,5 +1,8 @@
-package com.manzurola.questions.domain;
+package com.manzurola.questions.filltheblanks.manage;
 
+import com.manzurola.questions.filltheblanks.Application;
+import com.manzurola.questions.filltheblanks.Question;
+import com.manzurola.questions.filltheblanks.QuestionService;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -20,9 +23,9 @@ public class QuestionServiceTest {
     @Test
     public void addQuestion() throws Exception {
 
-        Question question = new FillInTheBlanks("past simple", "I %?% a burger last year ", "ate", "%?%");
+//        Question question = new Question("past simple", "I %?% a burger last year ", "ate");
 
-        service.addQuestion(question);
+//        service.addQuestion(question);
 
     }
 }

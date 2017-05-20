@@ -1,6 +1,9 @@
-package com.manzurola.questions.domain;
+package com.manzurola.questions.filltheblanks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manzurola.questions.filltheblanks.search.SearchClient;
+import com.manzurola.questions.filltheblanks.rest.api.v1.QuestionController;
+import com.manzurola.questions.filltheblanks.search.SearchClientImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -31,6 +34,12 @@ public class Application {
     @Value("${jetty.host}")
     private String jettyHost;
 
+    @Value("${elasticsearch.index}")
+    private String elasticsearchIndex;
+
+    @Value("${elasticsearch.type}")
+    private String elasticsearchType;
+
     public static void main(String[] args) throws Exception {
         Application application = new Application();
         application.run();
@@ -42,13 +51,13 @@ public class Application {
     }
 
     @Bean
-    public ElasticsearchService elasticsearchService() throws Exception {
+    public SearchClient elasticsearchService() throws Exception {
         Settings settings = Settings.builder()
                 .put("cluster.name", "elasticsearch_guym").build();
         TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
-        return new ElasticsearchServiceImpl(client, objectMapper());
+        return new SearchClientImpl(client, objectMapper(), elasticsearchIndex, elasticsearchType);
     }
 
     @Bean
