@@ -22,15 +22,16 @@ public class SearchClientTest {
     private SearchClient searchClient;
 
     @Test
-    public void indexAndSearch() throws Exception {
-        Question question1 = new Question("past simple", "I %?% a burger last year guy", "ate");
-        Question question2 = new Question("past simple", "I %?% a burger last year guy", "ate hi");
+        public void indexAndSearch() throws Exception {
+//            Question question1 = new Question("past simple", "I %?% a burger last year guy", "ate");
+//            Question question2 = new Question("past simple", "I %?% a burger last year guy", "ate hi");
+//
+//            searchClient.index(question1);
+//            searchClient.index(question2);
 
-        searchClient.index(question1);
-        searchClient.index(question2);
+            List<Question> questions = searchClient.search(new SearchQuery("guy", "hi", "simple"));
 
-        List<Question> questions = searchClient.search(new SearchQuery(0, 10, "guy", "hi", "simple"));
-
-        System.out.println(questions);
+            System.out.println(questions.size());
+            System.out.println(questions);
     }
 }

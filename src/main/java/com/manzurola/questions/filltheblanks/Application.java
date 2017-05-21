@@ -11,6 +11,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
+import org.glassfish.jersey.jackson.JacksonFeature;
 import org.glassfish.jersey.server.ResourceConfig;
 import org.glassfish.jersey.servlet.ServletContainer;
 import org.springframework.beans.factory.annotation.Value;
@@ -79,6 +80,7 @@ public class Application {
         server.setHandler(context);
 
         ResourceConfig config = new ResourceConfig();
+        config.register(JacksonFeature.class);
         config.register(questionContoller());
 
         ServletHolder jerseyServlet = new ServletHolder(new ServletContainer(config));

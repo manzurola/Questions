@@ -10,28 +10,14 @@ import org.elasticsearch.index.query.QueryBuilders;
  */
 public class SearchQuery {
 
-    private final int from;
-    private final int size;
     private final String termsInQuestionBody;
     private final String termsInQuestionAnswer;
     private final String termsInSubject;
 
-    public SearchQuery(int from, int size, String termsInQuestionBody, String termsInQuestionAnswer, String termsInSubject) {
-        this.from = from;
-        this.size = size;
+    public SearchQuery(String termsInQuestionBody, String termsInQuestionAnswer, String termsInSubject) {
         this.termsInQuestionBody = termsInQuestionBody;
         this.termsInQuestionAnswer = termsInQuestionAnswer;
         this.termsInSubject = termsInSubject;
-    }
-
-
-
-    public int getFrom() {
-        return from;
-    }
-
-    public int getSize() {
-        return size;
     }
 
     public String getTermsInQuestionBody() {
