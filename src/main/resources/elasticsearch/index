@@ -6,8 +6,11 @@ PUT /questions_en
                 "id": {"type": "string"},
                 "subject": {"type": "text"},
                 "body":{"type": "text"},
-                "answer":{"type": "text"},
-                "notes": {"type": "text"}
+                "answerKey":{"type": "text"},
+                "notes": {"type": "text"},
+                "blankToken": {"type": "string"},
+                "rawBody": {"type": "string"},
+                "version": {"type": "string"}
             }
         }
     }

@@ -1,9 +1,7 @@
 package com.manzurola.questions.filltheblanks;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manzurola.questions.filltheblanks.search.SearchClient;
 import com.manzurola.questions.filltheblanks.rest.api.v1.QuestionController;
-import com.manzurola.questions.filltheblanks.search.SearchClientImpl;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -21,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 /**
  * Created by guym on 17/05/2017.
@@ -48,17 +47,17 @@ public class Application {
 
     @Bean
     public Repository questionService() throws Exception {
-        return new ElasticsearchRepository(elasticsearchService());
+        return new ElasticsearchRepository(transportClient(), objectMapper(), elasticsearchIndex, elasticsearchType);
     }
 
     @Bean
-    public SearchClient elasticsearchService() throws Exception {
+    public TransportClient transportClient() throws UnknownHostException {
         Settings settings = Settings.builder()
                 .put("cluster.name", "elasticsearch_guym").build();
         TransportClient client = new PreBuiltTransportClient(settings)
                 .addTransportAddress(new InetSocketTransportAddress(InetAddress.getByName("localhost"), 9300));
 
-        return new SearchClientImpl(client, objectMapper(), elasticsearchIndex, elasticsearchType);
+        return client;
     }
 
     @Bean

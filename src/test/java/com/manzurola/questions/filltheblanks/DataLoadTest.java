@@ -22,8 +22,8 @@ public class DataLoadTest {
     @Test
     public void loadData() throws Exception {
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions-fill-in-the-blanks.csv");
-        CSVQuestionReader reader = new CSVQuestionReader();
-        List<Question> questions = reader.read(input);
+        CSVQuestionReader reader = new CSVQuestionReader(input);
+        List<Question> questions = reader.read();
         repository.addQuestions(questions);
     }
 }
