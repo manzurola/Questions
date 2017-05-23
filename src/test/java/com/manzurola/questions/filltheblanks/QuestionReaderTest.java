@@ -14,7 +14,7 @@ public class QuestionReaderTest {
 
     @Test
     public void parse() throws IOException {
-        String csvEntry = "$(A|An) cigarette is made of $(a|) tobacco and $() paper.,Countables and Uncountables,   Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary";
+        String csvEntry = "$(A) cigarette is made of $() tobacco and $() paper.,Countables and Uncountables,   Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary";
 
         QuestionReader reader = new CSVQuestionReader(csvEntry);
         List<Question> questions = reader.read();
@@ -23,11 +23,13 @@ public class QuestionReaderTest {
         Question expected = new Question(
                 actual.getId(),
                 "<?> cigarette is made of <?> tobacco and <?> paper.",
-                Arrays.asList(new String[]{"A", "An"}, new String[]{"a", ""}, new String[]{""}),
+                Arrays.asList("A", "", ""),
                 "<?>",
                 "Countables and Uncountables",
                 "Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary",
-                "A cigarette is made of tobacco and paper.");
+                "A cigarette is made of tobacco and paper.",
+                "$(A) cigarette is made of $() tobacco and $() paper.",
+                "v1");
 
         Assert.assertEquals(expected, actual);
     }

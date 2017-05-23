@@ -9,7 +9,8 @@ PUT /questions_en
                 "answerKey":{"type": "text"},
                 "notes": {"type": "text"},
                 "blankToken": {"type": "string"},
-                "rawBody": {"type": "string"},
+                "solution": {"type": "text"},
+                "originalSentence": {"type": "text"},
                 "version": {"type": "string"}
             }
         }

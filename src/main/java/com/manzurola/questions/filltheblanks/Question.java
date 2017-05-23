@@ -15,38 +15,34 @@ public class Question {
     private final String id;
     private final String body;
     private final String blankToken; // so client may parse body
-    private final List<String[]> answerKey; // list index matches blank index, each blank may have more than one answer
+    private final List<String> answerKey; // list index matches blank index, each blank may have more than one answer
     private final String notes;
     private final String subject;
     private final String solution;
-
-//    private Question(Builder builder) {
-//        this(builder.id,
-//                builder.body,
-//                builder.answerKey,
-//                builder.blankToken,
-//                builder.subject,
-//                builder.notes,
-//                builder.solution);
-//    }
+    private final String originalSentence;
+    private final String version;
 
     public Question(String body,
-                    List<String[]> answerKey,
+                    List<String> answerKey,
                     String blankToken,
                     String subject,
                     String notes,
-                    String solution) {
-        this(UUID.randomUUID().toString(), body, answerKey, blankToken, subject, notes, solution);
+                    String solution,
+                    String originalSentence,
+                    String version) {
+        this(UUID.randomUUID().toString(), body, answerKey, blankToken, subject, notes, solution, originalSentence, version);
     }
 
     @JsonCreator
     public Question(@JsonProperty("id") String id,
                     @JsonProperty("body") String body,
-                    @JsonProperty("answerKey") List<String[]> answerKey,
+                    @JsonProperty("answerKey") List<String> answerKey,
                     @JsonProperty("blankToken") String blankToken,
                     @JsonProperty("subject") String subject,
                     @JsonProperty("notes") String notes,
-                    @JsonProperty("solution") String solution) {
+                    @JsonProperty("solution") String solution,
+                    @JsonProperty("originalSentence") String originalSentence,
+                    @JsonProperty("version") String version) {
         this.id = id;
         this.subject = subject;
         this.body = body;
@@ -54,43 +50,9 @@ public class Question {
         this.notes = notes;
         this.blankToken = blankToken;
         this.solution = solution;
+        this.originalSentence = originalSentence;
+        this.version = version;
     }
-
-//    public static class Builder {
-//        private String id = UUID.randomUUID().toString();
-//        private String body;
-//        private String blankToken;
-//        private List<String[]> answerKey;
-//        private String subject = "";
-//        private String notes = "";
-//        private String solution;
-//
-//        public Builder(String body, String blankToken, List<String[]> answerKey, String solution) {
-//            this.body = body;
-//            this.blankToken = blankToken;
-//            this.answerKey = answerKey;
-//            this.solution = solution;
-//        }
-//
-//        public Question build() {
-//            return new Question(this);
-//        }
-//
-//        public Builder setId(String id) {
-//            this.id = id;
-//            return this;
-//        }
-//
-//        public Builder setSubject(String subject) {
-//            this.subject = subject;
-//            return this;
-//        }
-//
-//        public Builder setNotes(String notes) {
-//            this.notes = notes;
-//            return this;
-//        }
-//    }
 
     @JsonProperty("id")
     public String getId() {
@@ -108,7 +70,7 @@ public class Question {
     }
 
     @JsonProperty("answerKey")
-    public List<String[]> getAnswerKey() {
+    public List<String> getAnswerKey() {
         return new ArrayList<>(answerKey);
     }
 
@@ -122,8 +84,19 @@ public class Question {
         return blankToken;
     }
 
+    @JsonProperty("solution")
     public String getSolution() {
         return solution;
+    }
+
+    @JsonProperty("originalSentence")
+    public String getOriginalSentence() {
+        return originalSentence;
+    }
+
+    @JsonProperty("version")
+    public String getVersion() {
+        return version;
     }
 
     @Override
@@ -136,6 +109,8 @@ public class Question {
                 ", notes='" + notes + '\'' +
                 ", subject='" + subject + '\'' +
                 ", solution='" + solution + '\'' +
+                ", originalSentence='" + originalSentence + '\'' +
+                ", version='" + version + '\'' +
                 '}';
     }
 
@@ -150,11 +125,13 @@ public class Question {
                 Objects.equals(answerKey, question.answerKey) &&
                 Objects.equals(notes, question.notes) &&
                 Objects.equals(subject, question.subject) &&
-                Objects.equals(solution, question.solution);
+                Objects.equals(solution, question.solution) &&
+                Objects.equals(originalSentence, question.originalSentence) &&
+                Objects.equals(version, question.version);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, body, blankToken, answerKey, notes, subject, solution);
+        return Objects.hash(id, body, blankToken, answerKey, notes, subject, solution, originalSentence, version);
     }
 }

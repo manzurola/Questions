@@ -3,9 +3,7 @@ package com.manzurola.questions.filltheblanks;
 import com.opencsv.CSVReader;
 
 import java.io.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,7 +13,6 @@ import java.util.regex.Pattern;
 public class CSVQuestionReader implements QuestionReader {
     private static final String BLANK_BODY_PLACEHOLDER = "<?>";
     private static final Pattern BODY_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");
-    private static final String ANSWER_SEPARATOR = "|";
     private static final int EXPECTED_NUM_OF_VALUES_IN_ENTRY = 3;
     private static final String version = "v1";
 
@@ -60,21 +57,36 @@ public class CSVQuestionReader implements QuestionReader {
         String subject = values[1].trim();
         String notes = values[2].trim();
 
-        StringBuffer actualBody = new StringBuffer();
-        List<String[]> actualAnswer = new ArrayList<>();
+        StringBuffer bodyBuffer = new StringBuffer();
+        List<String> actualAnswer = new ArrayList<>();
 
         Matcher matcher = BODY_PATTERN.matcher(body);
         while (matcher.find()) {
-            matcher.appendReplacement(actualBody, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
-            String[] termsPerBlank = matcher.group(2).split(Pattern.quote(ANSWER_SEPARATOR), -1);
-            for (int i = 0; i < termsPerBlank.length; i++) {
-                termsPerBlank[i] = termsPerBlank[i].trim();
-            }
-            actualAnswer.add(termsPerBlank);
+            matcher.appendReplacement(bodyBuffer, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
+            String answer = matcher.group(2);
+            actualAnswer.add(answer);
         }
-        matcher.appendTail(actualBody);
+        matcher.appendTail(bodyBuffer);
 
-        return new Question(actualBody.toString(), actualAnswer, BLANK_BODY_PLACEHOLDER, subject, notes);
+        String actualBody = bodyBuffer.toString();
+        return new Question(actualBody, actualAnswer, BLANK_BODY_PLACEHOLDER, subject, notes, createSolution(actualBody, actualAnswer), body, version);
     }
+
+    private String createSolution(String body, List<String> answerKey) {
+        Map<String, String> patternReplacements = new HashMap<>();
+        patternReplacements.put(BLANK_BODY_PLACEHOLDER, "");
+        patternReplacements.put(" " + BLANK_BODY_PLACEHOLDER + " ", " ");
+        final Pattern pattern = Pattern.compile(" " + Pattern.quote(BLANK_BODY_PLACEHOLDER) + " |" + Pattern.quote(BLANK_BODY_PLACEHOLDER));
+        String solution = body;
+        for (String answer : answerKey) {
+            Matcher matcher = pattern.matcher(solution);
+            if (matcher.find()) {
+                String replacement = answer.isEmpty() ? patternReplacements.get(matcher.group(0)) : answer;
+                solution = matcher.replaceFirst(replacement);
+            }
+        }
+        return solution;
+    }
+
 
 }
