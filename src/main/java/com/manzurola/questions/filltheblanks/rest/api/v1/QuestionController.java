@@ -1,12 +1,11 @@
 package com.manzurola.questions.filltheblanks.rest.api.v1;
 
 import com.manzurola.questions.filltheblanks.Question;
-import com.manzurola.questions.filltheblanks.QuestionService;
-import com.manzurola.questions.filltheblanks.search.SearchQuery;
+import com.manzurola.questions.filltheblanks.Repository;
+import com.manzurola.questions.filltheblanks.SearchQuery;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import java.util.List;
 
 /**
@@ -15,9 +14,9 @@ import java.util.List;
 @Path("/questions")
 public class QuestionController {
 
-    private final QuestionService service;
+    private final Repository service;
 
-    public QuestionController(QuestionService service) {
+    public QuestionController(Repository service) {
         this.service = service;
     }
 

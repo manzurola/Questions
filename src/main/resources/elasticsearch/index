@@ -1,0 +1,14 @@
+PUT /questions_en
+{
+    "mappings":{
+        "fill_in_the_blanks": {
+            "properties": {
+                "id": {"type": "string"},
+                "subject": {"type": "text"},
+                "body":{"type": "text"},
+                "answer":{"type": "text"},
+                "notes": {"type": "text"}
+            }
+        }
+    }
+}

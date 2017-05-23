@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -16,21 +17,24 @@ public class Question {
     private final String id;
     private final String subject;
     private final String body;
-    private final String answer;
+    private final List<String> answer;
+    private final String notes;
 
-    public Question(String subject, String body, String answer) {
-        this(UUID.randomUUID().toString(), subject, body, answer);
+    public Question(String subject, String body, List<String> answer, String notes) {
+        this(UUID.randomUUID().toString(), subject, body, answer, notes);
     }
 
     @JsonCreator
     public Question(@JsonProperty("id") String id,
                     @JsonProperty("subject") String subject,
                     @JsonProperty("body") String body,
-                    @JsonProperty("answer") String answer) {
+                    @JsonProperty("answer") List<String> answer,
+                    @JsonProperty("notes") String notes) {
         this.id = id;
         this.subject = subject;
         this.body = body;
         this.answer = answer;
+        this.notes = notes;
     }
 
     @JsonProperty("id")
@@ -49,8 +53,13 @@ public class Question {
     }
 
     @JsonProperty("answer")
-    public String getAnswer() {
+    public List<String> getAnswer() {
         return answer;
+    }
+
+    @JsonProperty("notes")
+    public String getNotes() {
+        return notes;
     }
 
     @Override
@@ -59,7 +68,8 @@ public class Question {
                 "id='" + id + '\'' +
                 ", subject='" + subject + '\'' +
                 ", body='" + body + '\'' +
-                ", answer='" + answer + '\'' +
+                ", answer=" + answer +
+                ", notes='" + notes + '\'' +
                 '}';
     }
 
@@ -71,11 +81,12 @@ public class Question {
         return Objects.equals(id, question.id) &&
                 Objects.equals(subject, question.subject) &&
                 Objects.equals(body, question.body) &&
-                Objects.equals(answer, question.answer);
+                Objects.equals(answer, question.answer) &&
+                Objects.equals(notes, question.notes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, subject, body, answer);
+        return Objects.hash(id, subject, body, answer, notes);
     }
 }

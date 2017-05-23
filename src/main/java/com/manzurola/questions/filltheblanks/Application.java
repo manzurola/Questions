@@ -47,8 +47,8 @@ public class Application {
     }
 
     @Bean
-    public QuestionService questionService() throws Exception {
-        return new QuestionServiceImpl(elasticsearchService());
+    public Repository questionService() throws Exception {
+        return new ElasticsearchRepository(elasticsearchService());
     }
 
     @Bean
