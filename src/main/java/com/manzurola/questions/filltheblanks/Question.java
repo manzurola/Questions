@@ -1,6 +1,7 @@
 package com.manzurola.questions.filltheblanks;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,7 +21,16 @@ public class Question {
     private final String subject;
     private final String solution;
     private final String originalSentence;
-    private final String version;
+    private final String version; // to reference the parser version
+
+    public Question(String body,
+                    List<String> answerKey,
+                    String blankToken,
+                    String solution,
+                    String originalSentence,
+                    String version) {
+        this(UUID.randomUUID().toString(), body, answerKey, blankToken, "", "", solution, originalSentence, version);
+    }
 
     public Question(String body,
                     List<String> answerKey,
@@ -44,14 +54,18 @@ public class Question {
                     @JsonProperty("originalSentence") String originalSentence,
                     @JsonProperty("version") String version) {
         this.id = id;
-        this.subject = subject;
         this.body = body;
         this.answerKey = Collections.unmodifiableList(answerKey);
-        this.notes = notes;
         this.blankToken = blankToken;
+        this.subject = subject;
+        this.notes = notes;
         this.solution = solution;
         this.originalSentence = originalSentence;
         this.version = version;
+    }
+
+    public Question(Question copy) {
+        this(copy.id, copy.body, copy.answerKey, copy.blankToken, copy.subject, copy.notes, copy.solution, copy.originalSentence, copy.version);
     }
 
     @JsonProperty("id")
@@ -62,6 +76,11 @@ public class Question {
     @JsonProperty("subject")
     public String getSubject() {
         return subject;
+    }
+
+    @JsonIgnore
+    public Question setSubject(String subject) {
+        return new Question(this.id, this.body, this.answerKey, this.blankToken, subject, this.notes, this.solution, this.originalSentence, this.version);
     }
 
     @JsonProperty("body")
@@ -77,6 +96,10 @@ public class Question {
     @JsonProperty("notes")
     public String getNotes() {
         return notes;
+    }
+
+    public Question setNotes(String notes) {
+        return new Question(this.id, this.body, this.answerKey, this.blankToken, this.subject, notes, this.solution, this.originalSentence, this.version);
     }
 
     @JsonProperty("blankToken")
