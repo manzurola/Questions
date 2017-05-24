@@ -15,21 +15,19 @@ public class V1QuestionParser implements QuestionParser {
     private static final String BLANK_BODY_PLACEHOLDER = "<?>";
     private static final Pattern BODY_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");
 
-    @Override
-    public Question parseSentence(String sentence) {
-        StringBuffer bodyBuffer = new StringBuffer();
-        List<String> actualAnswer = new ArrayList<>();
+    public Question parseText(String text) {
+        StringBuffer body = new StringBuffer();
+        List<String> answerKey = new ArrayList<>();
 
-        Matcher matcher = BODY_PATTERN.matcher(sentence);
+        Matcher matcher = BODY_PATTERN.matcher(text);
         while (matcher.find()) {
-            matcher.appendReplacement(bodyBuffer, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
+            matcher.appendReplacement(body, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
             String answer = matcher.group(2);
-            actualAnswer.add(answer);
+            answerKey.add(answer);
         }
-        matcher.appendTail(bodyBuffer);
+        matcher.appendTail(body);
 
-        String actualBody = bodyBuffer.toString();
-        return new Question(actualBody, actualAnswer, BLANK_BODY_PLACEHOLDER, createSolution(actualBody, actualAnswer), sentence, VERSION);
+        return new Question(body.toString(), answerKey, BLANK_BODY_PLACEHOLDER, createSolution(text), text, VERSION);
     }
 
     @Override
@@ -37,19 +35,16 @@ public class V1QuestionParser implements QuestionParser {
         return VERSION;
     }
 
-    private String createSolution(String body, List<String> answerKey) {
-        Map<String, String> patternReplacements = new HashMap<>();
-        patternReplacements.put(BLANK_BODY_PLACEHOLDER, "");
-        patternReplacements.put(" " + BLANK_BODY_PLACEHOLDER + " ", " ");
-        final Pattern pattern = Pattern.compile(" " + Pattern.quote(BLANK_BODY_PLACEHOLDER) + " |" + Pattern.quote(BLANK_BODY_PLACEHOLDER));
-        String solution = body;
-        for (String answer : answerKey) {
-            Matcher matcher = pattern.matcher(solution);
-            if (matcher.find()) {
-                String replacement = answer.isEmpty() ? patternReplacements.get(matcher.group(0)) : answer;
-                solution = matcher.replaceFirst(replacement);
-            }
+    private String createSolution(String sentence) {
+        Matcher matcher = BODY_PATTERN.matcher(sentence);
+        StringBuffer buf = new StringBuffer();
+        while (matcher.find()) {
+            String answer = matcher.group(2);
+            matcher.appendReplacement(buf, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), answer));
         }
+        matcher.appendTail(buf);
+        String solution = buf.toString();
+        solution = solution.replaceAll("( ){2,}", " ").replaceAll("^( )", "").replaceAll("( )$", "");
         return solution;
     }
 }

@@ -5,7 +5,7 @@ package com.manzurola.questions.filltheblanks;
  */
 public interface QuestionParser {
 
-    Question parseSentence(String sentence);
+    Question parseText(String sentence);
 
     String getVersion();
 }

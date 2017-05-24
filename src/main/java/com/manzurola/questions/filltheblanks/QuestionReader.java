@@ -11,5 +11,5 @@ public interface QuestionReader {
 
     List<Question> read() throws IOException;
 
-    String getVersion();
+    String getParserVersion();
 }
