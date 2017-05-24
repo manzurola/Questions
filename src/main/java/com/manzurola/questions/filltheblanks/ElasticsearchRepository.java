@@ -1,5 +1,7 @@
 package com.manzurola.questions.filltheblanks;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -7,6 +9,7 @@ import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
 import org.elasticsearch.search.SearchHit;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -62,9 +65,21 @@ public class ElasticsearchRepository implements Repository {
 
         List<Question> results = new ArrayList<>();
         for (SearchHit searchHit : response.getHits()) {
-            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
+            results.add(mapper.readValue(searchHit.getSourceAsString(), Document.class));
         }
 
         return results;
+    }
+
+
+    private static class Document extends Question{
+
+        protected Document(@JsonProperty("id") String id, @JsonProperty("body") String body, @JsonProperty("answerKey") List<String> answerKey, @JsonProperty("blankToken") String blankToken, @JsonProperty("subject") String subject, @JsonProperty("notes") String notes, @JsonProperty("solution") String solution, @JsonProperty("originalSentence") String originalSentence, @JsonProperty("version") String version) {
+            super(id, body, answerKey, blankToken, subject, notes, solution, originalSentence, version);
+        }
+
+        Document(Question question) {
+            super(question);
+        }
     }
 }

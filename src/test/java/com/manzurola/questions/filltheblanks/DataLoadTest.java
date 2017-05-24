@@ -22,7 +22,7 @@ public class DataLoadTest {
     @Test
     public void loadData() throws Exception {
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions-fill-in-the-blanks.csv");
-        CSVQuestionReader reader = new CSVQuestionReader(input);
+        CsvQuestionReader reader = new CsvQuestionReader(input);
         List<Question> questions = reader.read();
         repository.addQuestions(questions);
     }

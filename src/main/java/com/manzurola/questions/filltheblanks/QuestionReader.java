@@ -10,6 +10,4 @@ import java.util.List;
 public interface QuestionReader {
 
     List<Question> read() throws IOException;
-
-    String getVersion();
 }

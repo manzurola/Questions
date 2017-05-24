@@ -35,7 +35,7 @@ public class SearchQuery {
     public QueryBuilder getQuery() {
         BoolQueryBuilder boolQuery = new BoolQueryBuilder();
         boolQuery.must(QueryBuilders.matchQuery("body", termsInQuestionBody))
-                .must(QueryBuilders.matchQuery("answer", termsInQuestionAnswer))
+                .must(QueryBuilders.matchQuery("answerKey", termsInQuestionAnswer))
                 .must(QueryBuilders.matchQuery("subject", termsInSubject));
         return boolQuery;
     }
