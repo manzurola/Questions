@@ -24,43 +24,43 @@ public class Question {
     private final String originalSentence;
     private final String version; // to reference the parser version
 
-    public Question(String sentence) {
-        this(new Parser().parseSentence(sentence));
+    public Question(String text) {
+        this(new Parser().parseText(text));
     }
 
-    public Question(String sentence, String subject, String notes) {
-        this(new Parser().parseSentence(sentence).setSubject(subject).setNotes(notes));
+    public Question(String text, String subject, String notes) {
+        this(new Parser().parseText(text).setSubject(subject).setNotes(notes));
     }
 
     protected Question(String body,
-                    List<String> answerKey,
-                    String blankToken,
-                    String solution,
-                    String originalSentence,
-                    String version) {
+                       List<String> answerKey,
+                       String blankToken,
+                       String solution,
+                       String originalSentence,
+                       String version) {
         this(UUID.randomUUID().toString(), body, answerKey, blankToken, "", "", solution, originalSentence, version);
     }
 
     protected Question(String body,
-                    List<String> answerKey,
-                    String blankToken,
-                    String subject,
-                    String notes,
-                    String solution,
-                    String originalSentence,
-                    String version) {
+                       List<String> answerKey,
+                       String blankToken,
+                       String subject,
+                       String notes,
+                       String solution,
+                       String originalSentence,
+                       String version) {
         this(UUID.randomUUID().toString(), body, answerKey, blankToken, subject, notes, solution, originalSentence, version);
     }
 
     protected Question(String id,
-                    String body,
-                    List<String> answerKey,
-                    String blankToken,
-                    String subject,
-                    String notes,
-                    String solution,
-                    String originalSentence,
-                    String version) {
+                       String body,
+                       List<String> answerKey,
+                       String blankToken,
+                       String subject,
+                       String notes,
+                       String solution,
+                       String originalSentence,
+                       String version) {
         this.id = id;
         this.body = body;
         this.answerKey = Collections.unmodifiableList(answerKey);
@@ -172,35 +172,31 @@ public class Question {
         private static final String BLANK_BODY_PLACEHOLDER = "<?>";
         private static final Pattern BODY_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");
 
-        public Question parseSentence(String sentence) {
-            StringBuffer bodyBuffer = new StringBuffer();
-            List<String> actualAnswer = new ArrayList<>();
+        public Question parseText(String sentence) {
+            StringBuffer body = new StringBuffer();
+            List<String> answerKey = new ArrayList<>();
 
             Matcher matcher = BODY_PATTERN.matcher(sentence);
             while (matcher.find()) {
-                matcher.appendReplacement(bodyBuffer, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
+                matcher.appendReplacement(body, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), Matcher.quoteReplacement(BLANK_BODY_PLACEHOLDER)));
                 String answer = matcher.group(2);
-                actualAnswer.add(answer);
+                answerKey.add(answer);
             }
-            matcher.appendTail(bodyBuffer);
+            matcher.appendTail(body);
 
-            String actualBody = bodyBuffer.toString();
-            return new Question(actualBody, actualAnswer, BLANK_BODY_PLACEHOLDER, createSolution(actualBody, actualAnswer), sentence, VERSION);
+            return new Question(body.toString(), answerKey, BLANK_BODY_PLACEHOLDER, createSolution(sentence), sentence, VERSION);
         }
 
-        private String createSolution(String body, List<String> answerKey) {
-            Map<String, String> patternReplacements = new HashMap<>();
-            patternReplacements.put(BLANK_BODY_PLACEHOLDER, "");
-            patternReplacements.put(" " + BLANK_BODY_PLACEHOLDER + " ", " ");
-            final Pattern pattern = Pattern.compile(" " + Pattern.quote(BLANK_BODY_PLACEHOLDER) + " |" + Pattern.quote(BLANK_BODY_PLACEHOLDER));
-            String solution = body;
-            for (String answer : answerKey) {
-                Matcher matcher = pattern.matcher(solution);
-                if (matcher.find()) {
-                    String replacement = answer.isEmpty() ? patternReplacements.get(matcher.group(0)) : answer;
-                    solution = matcher.replaceFirst(replacement);
-                }
+        private String createSolution(String sentence) {
+            Matcher matcher = BODY_PATTERN.matcher(sentence);
+            StringBuffer buf = new StringBuffer();
+            while (matcher.find()) {
+                String answer = matcher.group(2);
+                matcher.appendReplacement(buf, matcher.group(0).replaceFirst(Pattern.quote(matcher.group(1)), answer));
             }
+            matcher.appendTail(buf);
+            String solution = buf.toString();
+            solution = solution.replaceAll("( ){2,}", " ").replaceAll("^( )", "").replaceAll("( )$", "");
             return solution;
         }
     }
