@@ -27,7 +27,8 @@ public class IQuestionReaderTest {
                 "Countables and Uncountables",
                 "Add a or an where necessary",
                 "Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary",
-                "v1");
+                "v1",
+                "Fill In The Blanks");
 
         Assert.assertEquals(expected, actual);
     }

@@ -22,31 +22,29 @@ public class Question {
     private final String subject;
     private final String source;
     private final String version; // to reference the parser version
-
-    public Question(String body,
-                    List<String> answerKey,
-                     String blankToken,
-                     String version, String source) {
-        this(UUID.randomUUID().toString(), body, answerKey, blankToken, "", "", source, version);
-    }
+    private final String type;
 
     public Question(String body,
                     List<String> answerKey,
                     String blankToken,
-                     String subject,
-                     String instructions,
-                     String source, String version) {
-        this(UUID.randomUUID().toString(), body, answerKey, blankToken, subject, instructions, source, version);
+                    String subject,
+                    String instructions,
+                    String source,
+                    String version,
+                    String type) {
+        this(UUID.randomUUID().toString(), body, answerKey, blankToken, subject, instructions, source, version, type);
     }
 
     @JsonCreator
     public Question(@JsonProperty("id") String id,
-                     @JsonProperty("body") String body,
-                     @JsonProperty("answerKey") List<String> answerKey,
-                     @JsonProperty("blankToken") String blankToken,
-                     @JsonProperty("subject") String subject,
-                     @JsonProperty("instructions") String instructions,
-                     String source, @JsonProperty("version") String version) {
+                    @JsonProperty("body") String body,
+                    @JsonProperty("answerKey") List<String> answerKey,
+                    @JsonProperty("blankToken") String blankToken,
+                    @JsonProperty("subject") String subject,
+                    @JsonProperty("instructions") String instructions,
+                    @JsonProperty("source") String source,
+                    @JsonProperty("version") String version,
+                    @JsonProperty("type") String type) {
         this.id = id;
         this.body = body;
         this.answerKey = answerKey;
@@ -55,10 +53,11 @@ public class Question {
         this.instructions = instructions;
         this.source = source;
         this.version = version;
+        this.type = type;
     }
 
     public Question(Question copy) {
-        this(copy.id, copy.body, copy.answerKey, copy.blankToken, copy.subject, copy.instructions, copy.source, copy.version);
+        this(copy.id, copy.body, copy.answerKey, copy.blankToken, copy.subject, copy.instructions, copy.source, copy.version, copy.type);
     }
 
     @JsonProperty("id")
@@ -99,6 +98,11 @@ public class Question {
     @JsonProperty("version")
     public String getVersion() {
         return version;
+    }
+
+    @JsonProperty("type")
+    public String getType() {
+        return type;
     }
 
     @Override

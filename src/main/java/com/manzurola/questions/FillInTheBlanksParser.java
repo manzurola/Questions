@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
  */
 public class FillInTheBlanksParser implements QuestionParser {
     private static final String VERSION = "v1";
+    private static final String QUESTION_TYPE = "fill-in-the-blanks";
     private static final String BLANK_TOKEN = "<?>";
     private static final Pattern CONTENT_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");
     private static final int VALUE_COUNT = 4;
@@ -34,12 +35,17 @@ public class FillInTheBlanksParser implements QuestionParser {
         }
         matcher.appendTail(bodyBuf);
 
-        return new Question(bodyBuf.toString(), answerKey, BLANK_TOKEN, subject, instructions, source, VERSION);
+        return new Question(bodyBuf.toString(), answerKey, BLANK_TOKEN, subject, instructions, source, VERSION, QUESTION_TYPE);
     }
 
     @Override
     public String getVersion() {
         return VERSION;
+    }
+
+    @Override
+    public String getQuestionType() {
+        return QUESTION_TYPE;
     }
 
     private String createSolution(String sentence) {

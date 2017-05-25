@@ -8,4 +8,6 @@ public interface QuestionParser {
     Question parseQuestion(String[] values);
 
     String getVersion();
+
+    String getQuestionType();
 }
