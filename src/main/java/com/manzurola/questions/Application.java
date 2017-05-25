@@ -1,7 +1,7 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manzurola.questions.filltheblanks.rest.api.v1.QuestionController;
+import com.manzurola.questions.rest.api.v1.QuestionController;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;

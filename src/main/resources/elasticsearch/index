@@ -7,10 +7,10 @@ PUT /questions_en
                 "subject": {"type": "text"},
                 "body":{"type": "text"},
                 "answerKey":{"type": "text"},
-                "notes": {"type": "text"},
+                "instructions": {"type": "text"},
                 "blankToken": {"type": "string"},
                 "solution": {"type": "text"},
-                "originalSentence": {"type": "text"},
+                "source": {"type": "text"},
                 "version": {"type": "string"}
             }
         }

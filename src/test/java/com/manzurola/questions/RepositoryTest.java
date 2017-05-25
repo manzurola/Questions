@@ -1,10 +1,12 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+
+import java.util.List;
 
 /**
  * Created by guym on 16/05/2017.
@@ -14,14 +16,14 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class RepositoryTest {
 
     @Autowired
-    private Repository service;
+    private Repository repository;
 
     @Test
     public void addQuestion() throws Exception {
 
-//        Question question = new Question("past simple", "I %?% a burger last year ", "ate");
 
-//        service.addQuestion(question);
+        List<Question> questions = repository.searchQuestionsByAnswer("a");
 
+        System.out.println(questions);
     }
 }

@@ -1,4 +1,4 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.index.query.BoolQueryBuilder;

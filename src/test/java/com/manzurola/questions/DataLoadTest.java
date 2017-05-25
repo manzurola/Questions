@@ -1,4 +1,4 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,6 +7,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 
 /**
@@ -22,8 +23,8 @@ public class DataLoadTest {
     @Test
     public void loadData() throws Exception {
         InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions-fill-in-the-blanks.csv");
-        CSVQuestionReader reader = new CSVQuestionReader(input);
-        List<Question> questions = reader.read();
+        CSVQuestionReader reader = new CSVQuestionReader(new InputStreamReader(input));
+        List<Question> questions = reader.readAll();
         repository.addQuestions(questions);
     }
 }

@@ -1,4 +1,4 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import java.util.List;
 
@@ -15,6 +15,9 @@ public interface Repository {
 
     void deleteQuestions(List<String> ids) throws Exception;
 
-    List<Question> searchQuestions(SearchQuery query) throws Exception;
+    List<Question> searchQuestionsByAnswer(String termsInAnswer) throws Exception;
 
+    List<Question> searchQuestionsByAnswerAndSubject(String termsInAnswer, String termsInSubject) throws Exception;
+
+    List<Question> searchQuestionsBySubject(String termsInSubject) throws Exception;
 }

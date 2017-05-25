@@ -1,4 +1,4 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 /**
  * Created by guym on 21/05/2017.
  */
-public class ParseQuestionTest {
+public class ParseIQuestionTest {
 
     @Test
     public void parseVer1() throws Exception {

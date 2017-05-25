@@ -1,12 +1,16 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
+import org.elasticsearch.index.query.BoolQueryBuilder;
+import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,13 +57,31 @@ public class ElasticsearchRepository implements Repository {
     }
 
     @Override
-    public List<Question> searchQuestions(SearchQuery query) throws Exception {
-        SearchResponse response = client.prepareSearch(index).setTypes(type)
-                .setQuery(query.getQuery())                 // SearchQuery
-//                .setFrom(query.getFrom()).setSize(query.getSize()).setExplain(true)
-//                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-                .get();
+    public List<Question> searchQuestionsByAnswer(String termsInAnswer) throws Exception {
+        BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+        boolQuery.must(QueryBuilders.matchQuery("answerKey", termsInAnswer));
+        return search(boolQuery);
+    }
 
+    @Override
+    public List<Question> searchQuestionsByAnswerAndSubject(String termsInAnswer, String termsInSubject) throws Exception {
+        BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+        boolQuery.must(QueryBuilders.matchQuery("answerKey", termsInAnswer))
+                .must(QueryBuilders.matchQuery("subject", termsInSubject));
+        return search(boolQuery);
+    }
+
+    @Override
+    public List<Question> searchQuestionsBySubject(String termsInSubject) throws Exception {
+        BoolQueryBuilder boolQuery = new BoolQueryBuilder();
+        boolQuery.must(QueryBuilders.matchQuery("subject", termsInSubject));
+        return search(boolQuery);
+    }
+
+    private List<Question> search(QueryBuilder query) throws IOException {
+        SearchResponse response = client.prepareSearch(index).setTypes(type)
+                .setQuery(query)
+                .get();
         List<Question> results = new ArrayList<>();
         for (SearchHit searchHit : response.getHits()) {
             results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));

@@ -1,11 +1,11 @@
-package com.manzurola.questions.filltheblanks;
+package com.manzurola.questions;
 
 /**
  * Created by guym on 24/05/2017.
  */
 public interface QuestionParser {
 
-    Question parseText(String sentence);
+    Question parseQuestion(String[] values);
 
     String getVersion();
 }
