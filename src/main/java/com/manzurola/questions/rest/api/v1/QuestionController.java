@@ -1,14 +1,16 @@
 package com.manzurola.questions.rest.api.v1;
 
+import com.manzurola.questions.Question;
+import com.manzurola.questions.RewriteTheSentence;
 import com.manzurola.questions.data.Repository;
 import com.manzurola.questions.FillInTheBlanks;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by guym on 17/05/2017.
@@ -17,15 +19,27 @@ import java.util.List;
 public class QuestionController {
 
     private final Repository repository;
+    private final Map<String, Class<? extends Question>> mappedType;
+
+
 
     public QuestionController(Repository repository) {
         this.repository = repository;
+        mappedType = new HashMap<>();
+        mappedType.put("fill-in-the-blanks", FillInTheBlanks.class);
+        mappedType.put("rewrite-the-sentence", RewriteTheSentence.class);
     }
 
     @GET
+    @Path("/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<FillInTheBlanks> searchQuestions(@QueryParam("answer") String answer) throws Exception {
-        return repository.searchQuestionsByAnswer(answer, FillInTheBlanks.class);
+    public List<Question> searchQuestions(@QueryParam("answer") String answer, @PathParam("type") String type) throws Exception {
+        List<? extends Question> questions = repository.searchQuestionsByAnswer(answer, mappedType.get(type));
+        List<Question> result = new ArrayList<>();
+        for (Question question : questions) {
+            result.add(question);
+        }
+        return result;
     }
 
 }
