@@ -3,11 +3,9 @@ package com.manzurola.questions;
 /**
  * Created by guym on 24/05/2017.
  */
-public interface QuestionParser {
+public interface QuestionParser<T extends Question> {
 
-    Question parseQuestion(String[] values);
+    T parseQuestion(String[] values);
 
     String getVersion();
-
-    String getQuestionType();
 }

@@ -7,17 +7,17 @@ import java.util.List;
  */
 public interface Repository {
 
-    void addQuestion(Question question) throws Exception;
+    <T extends Question> void addQuestion(T question) throws Exception;
 
-    void addQuestions(List<Question> questions) throws Exception;
+    <T extends Question> void addQuestions(List<T> questions) throws Exception;
 
-    void deleteQuestion(String id) throws Exception;
+    <T extends Question> void deleteQuestion(String id, Class<T> type) throws Exception;
 
-    void deleteQuestions(List<String> ids) throws Exception;
+    <T extends Question> void deleteQuestions(List<String> ids, Class<T> type) throws Exception;
 
-    List<Question> searchQuestionsByAnswer(String termsInAnswer) throws Exception;
+    <T extends Question> List<T> searchQuestionsByAnswer(String termsInAnswer, Class<T> type) throws Exception;
 
-    List<Question> searchQuestionsByAnswerAndSubject(String termsInAnswer, String termsInSubject) throws Exception;
-
-    List<Question> searchQuestionsBySubject(String termsInSubject) throws Exception;
+//    <T extends Question> List<T> searchQuestionsByAnswerAndSubject(String termsInAnswer, String termsInSubject) throws Exception;
+//
+//    <T extends Question> List<T> searchQuestionsBySubject(String termsInSubject) throws Exception;
 }

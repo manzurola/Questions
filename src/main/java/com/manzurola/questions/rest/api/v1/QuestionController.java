@@ -1,5 +1,6 @@
 package com.manzurola.questions.rest.api.v1;
 
+import com.manzurola.questions.FillInTheBlanks;
 import com.manzurola.questions.Question;
 import com.manzurola.questions.Repository;
 
@@ -24,8 +25,8 @@ public class QuestionController {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Question> searchQuestions(@QueryParam("answer") String answer) throws Exception {
-        return repository.searchQuestionsByAnswer(answer);
+    public List<FillInTheBlanks> searchQuestions(@QueryParam("answer") String answer) throws Exception {
+        return repository.searchQuestionsByAnswer(answer, FillInTheBlanks.class);
     }
 
 }

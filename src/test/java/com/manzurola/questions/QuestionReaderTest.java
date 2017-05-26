@@ -10,28 +10,28 @@ import java.util.Arrays;
 /**
  * Created by guym on 23/05/2017.
  */
-public class IQuestionReaderTest {
+public class QuestionReaderTest {
 
-    @Test
-    public void parse() throws IOException {
-        String csvEntry = "$(A) cigarette is made of $() tobacco and $() paper.,Countables and Uncountables,   Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary";
-
-        QuestionReader reader = new CSVQuestionReader(new StringReader(csvEntry));
-        Question actual = reader.readNext();
-
-        Question expected = new Question(
-                actual.getId(),
-                "<?> cigarette is made of <?> tobacco and <?> paper.",
-                Arrays.asList("A", "", ""),
-                "<?>",
-                "Countables and Uncountables",
-                "Add a or an where necessary",
-                "Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary",
-                "v1",
-                "Fill In The Blanks");
-
-        Assert.assertEquals(expected, actual);
-    }
+//    @Test
+//    public void parse() throws IOException {
+//        String csvEntry = "$(A) cigarette is made of $() tobacco and $() paper.,Countables and Uncountables,   Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary";
+//
+//        QuestionReader reader = new CSVQuestionReader(new StringReader(csvEntry));
+//        Question actual = reader.readNext();
+//
+//        Question expected = new Question(
+//                actual.getId(),
+//                "<?> cigarette is made of <?> tobacco and <?> paper.",
+//                Arrays.asList("A", "", ""),
+//                "<?>",
+//                "Countables and Uncountables",
+//                "Add a or an where necessary",
+//                "Living English Structure by W. Stannard Allen | Exercise 1.3 | Elementary",
+//                "v1",
+//                "Fill In The Blanks");
+//
+//        Assert.assertEquals(expected, actual);
+//    }
 
 //    @Test
 //    public void parse() throws IOException {

@@ -22,7 +22,7 @@ public class RepositoryTest {
     public void addQuestion() throws Exception {
 
 
-        List<Question> questions = repository.searchQuestionsByAnswer("a");
+        List<FillInTheBlanks> questions = repository.searchQuestionsByAnswer("a", FillInTheBlanks.class);
 
         System.out.println(questions);
     }

@@ -7,11 +7,11 @@ import java.util.List;
 /**
  * Created by guym on 21/05/2017.
  */
-public interface QuestionReader extends Closeable, Iterable<Question> {
+public interface QuestionReader<T extends Question> extends Closeable, Iterable<T> {
 
-    List<Question> readAll() throws IOException;
+    List<T> readAll() throws IOException;
 
-    Question readNext() throws IOException;
+    T readNext() throws IOException;
 
     String getParserVersion();
 }

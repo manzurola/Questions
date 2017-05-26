@@ -10,19 +10,20 @@ import java.util.List;
 /**
  * Created by guym on 21/05/2017.
  */
-public class CSVQuestionReader implements QuestionReader {
+public class CSVQuestionReader<T extends Question> implements QuestionReader {
 
     private final CSVReader reader;
-    private final QuestionParser parser = new FillInTheBlanksParser();
+    private final QuestionParser<T> parser;
 
-    public CSVQuestionReader(Reader reader) {
+    public CSVQuestionReader(Reader reader, QuestionParser<T> parser) {
         this.reader = new CSVReader(reader);
+        this.parser = parser;
     }
 
-    public List<Question> readAll() throws IOException {
-        List<Question> questions = new ArrayList<>();
+    public List<T> readAll() throws IOException {
+        List<T> questions = new ArrayList<>();
         for (String[] values : reader) {
-            Question question = parser.parseQuestion(values);
+            T question = parser.parseQuestion(values);
             questions.add(question);
         }
         return questions;

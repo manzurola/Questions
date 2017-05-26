@@ -7,14 +7,13 @@ import java.util.regex.Pattern;
 /**
  * Created by guym on 24/05/2017.
  */
-public class FillInTheBlanksParser implements QuestionParser {
+public class FillInTheBlanksParser implements QuestionParser<FillInTheBlanks> {
     private static final String VERSION = "v1";
-    private static final String QUESTION_TYPE = "fill-in-the-blanks";
     private static final String BLANK_TOKEN = "<?>";
     private static final Pattern CONTENT_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");
     private static final int VALUE_COUNT = 4;
 
-    public Question parseQuestion(String[] values) {
+    public FillInTheBlanks parseQuestion(String[] values) {
         if (values.length != VALUE_COUNT) {
             throw new IllegalArgumentException(String.format("expecting [%d] values, found only [%d] in entry %s", VALUE_COUNT, values.length, Arrays.toString(values)));
         }
@@ -35,17 +34,12 @@ public class FillInTheBlanksParser implements QuestionParser {
         }
         matcher.appendTail(bodyBuf);
 
-        return new Question(bodyBuf.toString(), answerKey, BLANK_TOKEN, subject, instructions, source, VERSION, QUESTION_TYPE);
+        return new FillInTheBlanks(bodyBuf.toString(), answerKey, subject, instructions, source, VERSION, BLANK_TOKEN);
     }
 
     @Override
     public String getVersion() {
         return VERSION;
-    }
-
-    @Override
-    public String getQuestionType() {
-        return QUESTION_TYPE;
     }
 
     private String createSolution(String sentence) {

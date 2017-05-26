@@ -37,9 +37,6 @@ public class Application {
     @Value("${elasticsearch.index}")
     private String elasticsearchIndex;
 
-    @Value("${elasticsearch.type}")
-    private String elasticsearchType;
-
     public static void main(String[] args) throws Exception {
         Application application = new Application();
         application.run();
@@ -47,7 +44,7 @@ public class Application {
 
     @Bean
     public Repository questionService() throws Exception {
-        return new ElasticsearchRepository(transportClient(), objectMapper(), elasticsearchIndex, elasticsearchType);
+        return new ElasticsearchRepository(transportClient(), objectMapper(), elasticsearchIndex);
     }
 
     @Bean

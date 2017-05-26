@@ -1,15 +1,49 @@
 PUT /questions_en
 {
-    "mappings":{
+  "settings": {
+    "analysis": {
+      "filter": {
+        "english_stemmer": {
+          "type":       "stemmer",
+          "language":   "english"
+        },
+        "english_possessive_stemmer": {
+          "type":       "stemmer",
+          "language":   "possessive_english"
+        }
+      },
+      "analyzer": {
+        "answerKey_en": {
+          "tokenizer":  "standard",
+          "filter": [
+            "english_possessive_stemmer",
+            "lowercase",
+            "english_stemmer"
+          ]
+        }
+      }
+    }
+  },
+  "mappings":{
         "fill_in_the_blanks": {
             "properties": {
                 "id": {"type": "string"},
                 "subject": {"type": "text"},
-                "body":{"type": "text"},
-                "answerKey":{"type": "text"},
                 "instructions": {"type": "text"},
+                "body":{"type": "text"},
+                "answerKey":{"type": "text", "analyzer": "answerKey_en"},
                 "blankToken": {"type": "string"},
-                "solution": {"type": "text"},
+                "source": {"type": "text"},
+                "version": {"type": "string"}
+            }
+        },
+        "rewrite_the_sentence": {
+            "properties": {
+                "id": {"type": "string"},
+                "subject": {"type": "text"},
+                "instructions": {"type": "text"},
+                "body":{"type": "text"},
+                "answerKey":{"type": "text", "analyzer": "answerKey_en"},
                 "source": {"type": "text"},
                 "version": {"type": "string"}
             }
