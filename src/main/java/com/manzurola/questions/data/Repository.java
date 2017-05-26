@@ -1,4 +1,6 @@
-package com.manzurola.questions;
+package com.manzurola.questions.data;
+
+import com.manzurola.questions.Question;
 
 import java.util.List;
 

@@ -1,6 +1,9 @@
-package com.manzurola.questions;
+package com.manzurola.questions.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manzurola.questions.Question;
+import com.manzurola.questions.FillInTheBlanks;
+import com.manzurola.questions.RewriteTheSentence;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;

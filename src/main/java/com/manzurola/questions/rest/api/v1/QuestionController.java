@@ -1,8 +1,7 @@
 package com.manzurola.questions.rest.api.v1;
 
+import com.manzurola.questions.data.Repository;
 import com.manzurola.questions.FillInTheBlanks;
-import com.manzurola.questions.Question;
-import com.manzurola.questions.Repository;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

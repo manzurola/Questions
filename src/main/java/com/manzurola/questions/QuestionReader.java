@@ -1,5 +1,7 @@
 package com.manzurola.questions;
 
+import com.manzurola.questions.Question;
+
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.List;

@@ -2,6 +2,7 @@ package com.manzurola.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manzurola.questions.Question;
 
 import java.util.List;
 

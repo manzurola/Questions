@@ -1,6 +1,8 @@
 package com.manzurola.questions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.manzurola.questions.data.ElasticsearchRepository;
+import com.manzurola.questions.data.Repository;
 import com.manzurola.questions.rest.api.v1.QuestionController;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
@@ -43,7 +45,7 @@ public class Application {
     }
 
     @Bean
-    public Repository questionService() throws Exception {
+    public Repository repository() throws Exception {
         return new ElasticsearchRepository(transportClient(), objectMapper(), elasticsearchIndex);
     }
 
@@ -64,7 +66,7 @@ public class Application {
 
     @Bean
     public QuestionController questionContoller() throws Exception {
-        return new QuestionController(questionService());
+        return new QuestionController(repository());
     }
 
     @Bean

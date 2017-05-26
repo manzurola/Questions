@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Created by guym on 26/05/2017.
  */
-public class FillInTheBlanks extends Question{
+public class FillInTheBlanks extends Question {
     private final String blankToken;
 
     public FillInTheBlanks(String body, List<String> answerKey, String subject, String instructions, String source, String version, String blankToken) {
