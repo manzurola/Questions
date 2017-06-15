@@ -9,7 +9,7 @@ import java.util.regex.Pattern;
 /**
  * Created by guym on 24/05/2017.
  */
-public class FillInTheBlanksParser implements QuestionParser<FillInTheBlanks> {
+public class FillInTheBlanksParserV1 implements QuestionParser<FillInTheBlanks> {
     private static final String VERSION = "v1";
     private static final String BLANK_TOKEN = "<?>";
     private static final Pattern CONTENT_PATTERN = Pattern.compile("(\\$\\((.*?)\\))");

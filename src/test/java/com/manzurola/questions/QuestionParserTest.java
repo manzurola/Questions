@@ -10,7 +10,7 @@ import java.util.List;
  * Created by guym on 24/05/2017.
  */
 public class QuestionParserTest {
-    private final QuestionParser parser = new FillInTheBlanksParser();
+    private final QuestionParser parser = new FillInTheBlanksParserV1();
 
     @Test
     public void parseText() throws Exception {

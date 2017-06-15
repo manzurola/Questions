@@ -21,8 +21,6 @@ public class QuestionController {
     private final Repository repository;
     private final Map<String, Class<? extends Question>> mappedType;
 
-
-
     public QuestionController(Repository repository) {
         this.repository = repository;
         mappedType = new HashMap<>();
@@ -33,7 +31,7 @@ public class QuestionController {
     @GET
     @Path("/{type}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Question> searchQuestions(@QueryParam("answer") String answer, @PathParam("type") String type) throws Exception {
+    public List<Question> searchQuestions(@PathParam("type") String type, @QueryParam("answer") String answer) throws Exception {
         List<? extends Question> questions = repository.searchQuestionsByAnswer(answer, mappedType.get(type));
         List<Question> result = new ArrayList<>();
         for (Question question : questions) {
