@@ -1,12 +1,5 @@
 package com.manzurola.questions;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.io.IOException;
-import java.io.StringReader;
-import java.util.Arrays;
-
 /**
  * Created by guym on 23/05/2017.
  */

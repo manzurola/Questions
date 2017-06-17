@@ -2,7 +2,6 @@ package com.manzurola.questions.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manzurola.questions.Question;
-import com.manzurola.questions.FillInTheBlanks;
 import com.manzurola.questions.RewriteTheSentence;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
@@ -68,6 +67,11 @@ public class ElasticsearchRepository implements Repository {
         BoolQueryBuilder boolQuery = new BoolQueryBuilder();
         boolQuery.must(QueryBuilders.matchQuery("answerKey", termsInAnswer));
         return search(boolQuery, type);
+    }
+
+    @Override
+    public <T extends Question> List<T> getAllQuestions(Class<T> type, Sorter<T> sorter) throws Exception {
+        return null;
     }
 
 //    @Override

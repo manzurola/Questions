@@ -5,7 +5,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import java.util.List;
-import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -20,15 +19,17 @@ public abstract class Question {
     private final String instructions;
     private final String subject;
     private final String source;
-    private final String version; // to reference the parser version
+    private final int difficultyLevel;
+    private final List<Choice> choices;
 
     public Question(String body,
                     List<String> answerKey,
                     String subject,
                     String instructions,
                     String source,
-                    String version) {
-        this(UUID.randomUUID().toString(), body, answerKey, subject, instructions, source, version);
+                    int difficultyLevel,
+                    List<Choice> choices) {
+        this(UUID.randomUUID().toString(), body, answerKey, subject, instructions, source, difficultyLevel, choices);
     }
 
     @JsonCreator
@@ -38,18 +39,20 @@ public abstract class Question {
                     @JsonProperty("subject") String subject,
                     @JsonProperty("instructions") String instructions,
                     @JsonProperty("source") String source,
-                    @JsonProperty("version") String version) {
+                    @JsonProperty("difficultyLevel") int difficultyLevel,
+                    @JsonProperty("choices") List<Choice> choices) {
         this.id = id;
         this.body = body;
         this.answerKey = answerKey;
         this.subject = subject;
         this.instructions = instructions;
         this.source = source;
-        this.version = version;
+        this.difficultyLevel = difficultyLevel;
+        this.choices = choices;
     }
 
     public Question(Question copy) {
-        this(copy.id, copy.body, copy.answerKey, copy.subject, copy.instructions, copy.source, copy.version);
+        this(copy.id, copy.body, copy.answerKey, copy.subject, copy.instructions, copy.source, copy.difficultyLevel, copy.choices);
     }
 
     @JsonProperty("id")
@@ -82,40 +85,13 @@ public abstract class Question {
         return source;
     }
 
-    @JsonProperty("version")
-    public String getVersion() {
-        return version;
+    @JsonProperty("difficultyLevel")
+    public int getDifficultyLevel() {
+        return difficultyLevel;
     }
 
-    @Override
-    public String toString() {
-        return "IQuestion{" +
-                "id='" + id + '\'' +
-                ", body='" + body + '\'' +
-                ", answerKey=" + answerKey +
-                ", instructions='" + instructions + '\'' +
-                ", subject='" + subject + '\'' +
-                ", source='" + source + '\'' +
-                ", version='" + version + '\'' +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Question question = (Question) o;
-        return Objects.equals(id, question.id) &&
-                Objects.equals(body, question.body) &&
-                Objects.equals(answerKey, question.answerKey) &&
-                Objects.equals(instructions, question.instructions) &&
-                Objects.equals(subject, question.subject) &&
-                Objects.equals(source, question.source) &&
-                Objects.equals(version, question.version);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, body, answerKey, instructions, subject, source, version);
+    @JsonProperty("choices")
+    public List<Choice> getChoices() {
+        return choices;
     }
 }

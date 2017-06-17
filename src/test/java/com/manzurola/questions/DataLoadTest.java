@@ -23,18 +23,18 @@ public class DataLoadTest {
 
     @Test
     public void loadFillInTheBlanks() throws Exception {
-        InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions_en_living_english_structure - fill-in-the-blanks.csv");
-        CSVQuestionReader<FillInTheBlanks> reader = new CSVQuestionReader<>(new InputStreamReader(input), new FillInTheBlanksParserV1());
+        InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions-en-fill-in-the-blanks.csv");
+        FillInTheBlanksReader reader = new FillInTheBlanksReader(new InputStreamReader(input), true);
         List<FillInTheBlanks> questions = reader.readAll();
-        repository.addQuestions(questions);
+        System.out.println(questions);
     }
 
-    @Test
-    public void loadRwrite() throws Exception {
-        InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions_en_living_english_structure - rewrite.csv");
-        CSVQuestionReader<RewriteTheSentence> reader = new CSVQuestionReader<>(new InputStreamReader(input), new RewriteTheSentenceParser());
-        List<RewriteTheSentence> questions = reader.readAll();
-        repository.addQuestions(questions);
-
-    }
+//    @Test
+//    public void loadRwrite() throws Exception {
+//        InputStream input = this.getClass().getClassLoader().getResourceAsStream("questions_en_living_english_structure - rewrite.csv");
+//        CSVQuestionReader<RewriteTheSentence> reader = new CSVQuestionReader<>(new InputStreamReader(input), new RewriteTheSentenceParser());
+//        List<RewriteTheSentence> questions = reader.readAll();
+//        repository.addQuestions(questions);
+//
+//    }
 }

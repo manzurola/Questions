@@ -9,12 +9,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class Choice {
     private final String text;
     private final int index;
+    private final boolean correct;
 
     @JsonCreator
     public Choice(@JsonProperty("text") String text,
-                  @JsonProperty("index") int index) {
+                  @JsonProperty("index") int index,
+                  @JsonProperty("correct") boolean correct) {
         this.text = text;
         this.index = index;
+        this.correct = correct;
     }
 
     public String getText() {
@@ -23,5 +26,9 @@ public class Choice {
 
     public int getIndex() {
         return index;
+    }
+
+    public boolean isCorrect() {
+        return correct;
     }
 }

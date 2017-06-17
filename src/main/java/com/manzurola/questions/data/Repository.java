@@ -19,6 +19,8 @@ public interface Repository {
 
     <T extends Question> List<T> searchQuestionsByAnswer(String termsInAnswer, Class<T> type) throws Exception;
 
+    <T extends Question> List<T> getAllQuestions(Class<T> type, Sorter<T> sorter) throws Exception;
+
 //    <T extends Question> List<T> searchQuestionsByAnswerAndSubject(String termsInAnswer, String termsInSubject) throws Exception;
 //
 //    <T extends Question> List<T> searchQuestionsBySubject(String termsInSubject) throws Exception;
