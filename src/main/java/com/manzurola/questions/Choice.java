@@ -3,6 +3,8 @@ package com.manzurola.questions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
+
 /**
  * Created by guym on 15/06/2017.
  */
@@ -30,5 +32,29 @@ public class Choice {
 
     public boolean isCorrect() {
         return correct;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Choice choice = (Choice) o;
+        return index == choice.index &&
+                correct == choice.correct &&
+                Objects.equals(text, choice.text);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(text, index, correct);
+    }
+
+    @Override
+    public String toString() {
+        return "Choice{" +
+                "text='" + text + '\'' +
+                ", index=" + index +
+                ", correct=" + correct +
+                '}';
     }
 }

@@ -37,7 +37,7 @@ public class FillInTheBlanksReader implements QuestionReader<FillInTheBlanks> {
     protected FillInTheBlanks parseValues(String[] values) throws IOException {
 
         if (values.length != VALUE_COUNT) {
-            throw new IllegalArgumentException(String.format("expecting [%d] values, found only [%d] in entry %s", VALUE_COUNT, values.length, Arrays.toString(values)));
+            throw new IllegalArgumentException(String.format("expecting [%d] values, found only [%d] in entry [%s]", VALUE_COUNT, values.length, Arrays.toString(values)));
         }
 
         String content = values[0].trim();
@@ -70,6 +70,7 @@ public class FillInTheBlanksReader implements QuestionReader<FillInTheBlanks> {
             blankIndex++;
         }
         matcher.appendTail(bodyBuf);
+
 
         return new FillInTheBlanks(bodyBuf.toString(), answerKey, subject, instructions, source, difficultyLevel, choices, BLANK_TOKEN);
     }
