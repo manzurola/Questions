@@ -9,7 +9,8 @@ import java.util.List;
 /**
  * Created by guym on 19/07/2017.
  */
-public class SentenceGeneratorImpl implements SentenceGenerator {
+public class SingleChoiceSentenceGenerator implements SentenceGenerator {
+
     @Override
     public List<Sentence> generate(FillInTheBlanks question) {
         // precondition - each blank should have the same number of choices

@@ -1,13 +1,8 @@
 package com.manzurola.questions;
 
-import com.manzurola.questions.data.Repository;
 import com.manzurola.questions.game.Sentence;
-import com.manzurola.questions.game.SentenceGeneratorImpl;
+import com.manzurola.questions.game.SingleChoiceSentenceGenerator;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -40,7 +35,7 @@ public class DataLoadTest {
         for (FillInTheBlanks question : questions) {
 //            System.out.println(question);
             System.out.println(String.format("sentences for question with body [%s] and choices [%s]:", question.getBody(), question.getChoices()));
-            List<Sentence> sentences = new SentenceGeneratorImpl().generate(question);
+            List<Sentence> sentences = new SingleChoiceSentenceGenerator().generate(question);
             for (Sentence sentence : sentences) {
                 System.out.println(sentence);
 //                System.out.println(sentence.getParts());
