@@ -87,6 +87,18 @@ public class FillInTheBlanks extends Question {
         return Arrays.asList(getBody().split(String.format("(?=%s)|(?<=%s)", quote, quote)));
     }
 
+    public boolean isBlank(String value) {
+        return getBlankToken().equals(value);
+    }
+
+    public List<FillInTheBlanks> asSingleChoice() {
+        List<FillInTheBlanks> questions = new ArrayList<>();
+        for (int i = 0; i < numOfBlanks(); i++) {
+            questions.add(new SingleChoiceFillInTheBlanks(this, i));
+        }
+        return questions;
+    }
+
 
     @Override
     public boolean equals(Object o) {
