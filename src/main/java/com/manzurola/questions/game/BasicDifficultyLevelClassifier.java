@@ -3,7 +3,6 @@ package com.manzurola.questions.game;
 import com.manzurola.questions.Question;
 
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * Created by guym on 17/07/2017.
@@ -32,7 +31,7 @@ public class BasicDifficultyLevelClassifier implements DifficultyLevelClassifier
         //
         double answerFrequencies = 0;
         for (String word : answerWords) {
-            int frequency = wordFrequency.getFrequency(word);
+            double frequency = wordFrequency.get(word);
             answerFrequencies += frequency;
         }
         answerFrequencies /= answerWords.length;

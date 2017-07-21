@@ -5,5 +5,5 @@ package com.manzurola.questions.game;
  */
 public interface WordFrequency {
 
-    int getFrequency(String word);
+    double get(String word);
 }
