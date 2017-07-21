@@ -1,5 +1,7 @@
-package com.manzurola.questions;
+package com.manzurola.questions.fillintheblanks;
 
+import com.manzurola.questions.Choice;
+import com.manzurola.questions.QuestionReader;
 import com.opencsv.CSVReader;
 
 import java.io.IOException;

@@ -1,5 +1,7 @@
 package com.manzurola.questions;
 
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanksReader;
 import com.manzurola.questions.game.Sentence;
 import com.manzurola.questions.game.SingleChoiceSentenceGenerator;
 import org.junit.Test;

@@ -1,6 +1,7 @@
 package com.manzurola.questions;
 
 import com.manzurola.questions.data.Repository;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

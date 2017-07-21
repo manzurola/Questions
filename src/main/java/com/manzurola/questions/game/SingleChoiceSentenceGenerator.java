@@ -1,7 +1,7 @@
 package com.manzurola.questions.game;
 
 import com.manzurola.questions.Choice;
-import com.manzurola.questions.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
 
 import java.util.ArrayList;
 import java.util.List;

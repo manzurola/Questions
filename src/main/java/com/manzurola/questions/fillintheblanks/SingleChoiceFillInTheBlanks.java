@@ -1,4 +1,6 @@
-package com.manzurola.questions;
+package com.manzurola.questions.fillintheblanks;
+
+import com.manzurola.questions.Choice;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,5 @@ public class SingleChoiceFillInTheBlanks extends FillInTheBlanks {
     private static List<Choice> newChoices(FillInTheBlanks target, int indexOfBlank) {
         return target.getChoicesAt(indexOfBlank);
     }
-
 
 }

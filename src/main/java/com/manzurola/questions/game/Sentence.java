@@ -1,61 +1,48 @@
 package com.manzurola.questions.game;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Created by guym on 19/07/2017.
  */
-public class Sentence {
+public class Sentence implements Iterable {
 
-    private final List<String> parts;
-    private final int choiceIndex;
-    private final boolean isCorrect;
+    private List<SentenceSlice> slices;
+    private List<Integer> blanks = new ArrayList<>();
 
-    public Sentence(List<String> parts, int choiceIndex, boolean isCorrect) {
-        this.parts = parts;
-        this.choiceIndex = choiceIndex;
-        this.isCorrect = isCorrect;
-    }
-
-    public List<String> getParts() {
-        return parts;
-    }
-
-    public int getChoiceIndex() {
-        return choiceIndex;
-    }
-
-    public boolean isCorrect() {
-        return isCorrect;
-    }
-
-    public String getChoice() {
-        return parts.get(choiceIndex);
+    public Sentence(List<SentenceSlice> slices) {
+        this.slices = slices;
+        for (int i = 0; i < slices.size(); i++) {
+            if (slices.get(i).isBlank()) blanks.add(i);
+        }
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Sentence sentence = (Sentence) o;
-        return choiceIndex == sentence.choiceIndex &&
-                isCorrect == sentence.isCorrect &&
-                Objects.equals(parts, sentence.parts);
+    public Iterator iterator() {
+        return slices.iterator();
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(parts, choiceIndex, isCorrect);
+    public List<SentenceSlice> getBlanks() {
+        return slices.stream().filter(SentenceSlice::isBlank).collect(Collectors.toList());
     }
 
-    @Override
-    public String toString() {
-        return "Sentence{" +
-                "parts=" + parts +
-                ", choiceIndex=" + choiceIndex +
-                ", isCorrect=" + isCorrect +
-                ", choice='" + getChoice() + '\'' +
-                '}';
+    public int getIndexOfSlice(SentenceSlice slice) {
+        return slices.indexOf(slice);
+    }
+
+    public Sentence replaceSlice(SentenceSlice source, SentenceSlice target) {
+        int i = getIndexOfSlice(source);
+        List<SentenceSlice> newSlices = new ArrayList<>();
+        Collections.copy(newSlices, slices);
+        newSlices.set(i, target);
+        return new Sentence(newSlices);
+    }
+
+    public List<String> asTokenList() {
+        return slices.stream().map(SentenceSlice::getText).collect(Collectors.toList());
     }
 }

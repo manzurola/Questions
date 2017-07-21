@@ -1,6 +1,6 @@
 package com.manzurola.questions.game;
 
-import com.manzurola.questions.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
 
 import java.util.List;
 

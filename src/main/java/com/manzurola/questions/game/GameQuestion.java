@@ -1,7 +1,7 @@
 package com.manzurola.questions.game;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.manzurola.questions.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
 
 import java.util.List;
 
@@ -13,6 +13,11 @@ public class GameQuestion {
     private final FillInTheBlanks fillInTheBlanks;
     private final SentenceGenerator sentenceGenerator = new SingleChoiceSentenceGenerator();
     private final List<Sentence> sentences;
+
+    private final List<String> sentences;
+    private final int correctSentence;
+    private final int choiceIndex;
+    private final int difficuly;
 
     public GameQuestion(FillInTheBlanks fillInTheBlanks) {
         this.fillInTheBlanks = fillInTheBlanks;

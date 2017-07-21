@@ -1,6 +1,8 @@
-package com.manzurola.questions;
+package com.manzurola.questions.fillintheblanks;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manzurola.questions.Choice;
+import com.manzurola.questions.Question;
 
 import java.util.*;
 import java.util.regex.Pattern;
@@ -98,7 +100,6 @@ public class FillInTheBlanks extends Question {
         }
         return questions;
     }
-
 
     @Override
     public boolean equals(Object o) {

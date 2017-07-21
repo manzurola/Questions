@@ -2,6 +2,8 @@ package com.manzurola.questions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanksReader;
 import com.manzurola.questions.game.GameQuestion;
 import org.junit.Test;
 

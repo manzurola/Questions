@@ -1,6 +1,6 @@
 package com.manzurola.questions.rest.api.v1;
 
-import com.manzurola.questions.FillInTheBlanks;
+import com.manzurola.questions.fillintheblanks.FillInTheBlanks;
 import com.manzurola.questions.Question;
 import com.manzurola.questions.RewriteTheSentence;
 import com.manzurola.questions.data.Repository;
