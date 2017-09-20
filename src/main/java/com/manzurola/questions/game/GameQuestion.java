@@ -6,15 +6,18 @@ import com.manzurola.questions.FillInTheBlanks;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by guym on 19/07/2017.
  */
 public class GameQuestion {
 
+    private final String id = UUID.randomUUID().toString();
     private final FillInTheBlanks fillInTheBlanks;
     private final SentenceGenerator sentenceGenerator = new SingleChoiceSentenceGenerator();
     private final List<Sentence> sentences;
+    private double difficulty;
 
     public GameQuestion(FillInTheBlanks fillInTheBlanks) {
         this.fillInTheBlanks = fillInTheBlanks;
@@ -22,7 +25,7 @@ public class GameQuestion {
     }
 
     public String getId() {
-        return fillInTheBlanks.getId();
+        return id;
     }
 
     @JsonIgnore
@@ -44,7 +47,12 @@ public class GameQuestion {
         return result;
     }
 
-    @JsonProperty("indexOfCorrectSentence")
+    @JsonIgnore
+    public FillInTheBlanks getFillInTheBlanks() {
+        return fillInTheBlanks;
+    }
+
+    @JsonProperty("correct")
     public int correctSentence() {
         for (int i = 0; i < sentences.size(); i++) {
             if (sentences.get(i).isCorrect()) return i;
@@ -52,13 +60,17 @@ public class GameQuestion {
         return -1;
     }
 
-    @JsonProperty("indexOfChoiceInSentences")
+    @JsonProperty("choice")
     public int indexOfChoice() {
         return sentences.get(0).getChoiceIndex();
     }
 
     @JsonProperty("difficulty")
-    public int difficulty() {
-        return 0;
+    public double difficulty() {
+        return difficulty;
+    }
+
+    public void setDifficulty(double difficulty) {
+        this.difficulty = difficulty;
     }
 }

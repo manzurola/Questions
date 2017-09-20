@@ -99,6 +99,9 @@ public class FillInTheBlanks extends Question {
         return questions;
     }
 
+    public SingleChoiceFillInTheBlanks asSingleChoice(int blank) {
+        return new SingleChoiceFillInTheBlanks(this, blank);
+    }
 
     @Override
     public boolean equals(Object o) {

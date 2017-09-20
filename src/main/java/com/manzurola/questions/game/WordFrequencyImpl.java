@@ -17,13 +17,15 @@ public class WordFrequencyImpl implements WordFrequency {
     public WordFrequencyImpl(String filepath) throws IOException {
         List<String> words = Files.readAllLines(Paths.get(filepath));
         int total = words.size();
-        for (int i = 0; i < total; i++) {
-            frequencies.put(words.get(i), (double) ((total - i) / total));
+        for (double i = 0; i < total; i++) {
+            frequencies.put(words.get((int)i), ((total - i) / total));
         }
     }
 
     @Override
     public double get(String word) {
-        return 0;
+        Double frequency = frequencies.get(word);
+        return frequency != null ? frequency : 0;
     }
+
 }

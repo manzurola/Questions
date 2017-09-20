@@ -48,7 +48,12 @@ public class SingleChoiceFillInTheBlanks extends FillInTheBlanks {
     }
 
     private static List<Choice> newChoices(FillInTheBlanks target, int indexOfBlank) {
-        return target.getChoicesAt(indexOfBlank);
+        List<Choice> orig = target.getChoicesAt(indexOfBlank);
+        List<Choice> choices = new ArrayList<>();
+        for (Choice choice : orig) {
+            choices.add(new Choice(choice.getText(), 0, choice.isCorrect()));
+        }
+        return choices;
     }
 
 

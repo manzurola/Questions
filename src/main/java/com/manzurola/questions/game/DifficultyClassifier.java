@@ -5,7 +5,7 @@ import com.manzurola.questions.Question;
 /**
  * Created by guym on 17/07/2017.
  */
-public interface DifficultyLevelClassifier {
+public interface DifficultyClassifier {
 
-    double classify(Question question);
+    double classify(GameQuestion question) throws Exception;
 }
