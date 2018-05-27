@@ -16,7 +16,7 @@ import java.util.List;
 public class DataLoadTest {
 
 //    @Autowired
-//    public Repository repository;
+//    public QuestionRepository repository;
 
     @Test
     public void loadFillInTheBlanks() throws Exception {

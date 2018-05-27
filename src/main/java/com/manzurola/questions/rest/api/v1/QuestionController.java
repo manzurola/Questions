@@ -3,7 +3,7 @@ package com.manzurola.questions.rest.api.v1;
 import com.manzurola.questions.FillInTheBlanks;
 import com.manzurola.questions.Question;
 import com.manzurola.questions.RewriteTheSentence;
-import com.manzurola.questions.data.Repository;
+import com.manzurola.questions.data.QuestionRepository;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -18,10 +18,10 @@ import java.util.Map;
 @Path("/questions")
 public class QuestionController {
 
-    private final Repository repository;
+    private final QuestionRepository repository;
     private final Map<String, Class<? extends Question>> mappedType;
 
-    public QuestionController(Repository repository) {
+    public QuestionController(QuestionRepository repository) {
         this.repository = repository;
         mappedType = new HashMap<>();
         mappedType.put("fill-in-the-blanks", FillInTheBlanks.class);

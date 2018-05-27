@@ -22,14 +22,14 @@ import java.util.Map;
 /**
  * Created by guym on 16/05/2017.
  */
-public class ElasticsearchRepository implements Repository {
+public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     private final TransportClient client;
     private final ObjectMapper mapper;
     private final String index;
     private final Map<Class<?>, String> mappedTypes;
 
-    public ElasticsearchRepository(TransportClient client, ObjectMapper mapper, String index) {
+    public ElasticsearchQuestionRepository(TransportClient client, ObjectMapper mapper, String index) {
         this.client = client;
         this.mapper = mapper;
         this.index = index;
