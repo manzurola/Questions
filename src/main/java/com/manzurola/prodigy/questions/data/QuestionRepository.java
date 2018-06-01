@@ -1,13 +1,13 @@
-package com.manzurola.questions.data;
+package com.manzurola.prodigy.questions.data;
 
-import com.manzurola.questions.Question;
+import com.manzurola.prodigy.questions.Question;
 
 import java.util.List;
 
 /**
  * Created by guym on 16/05/2017.
  */
-public interface Repository {
+public interface QuestionRepository {
 
     <T extends Question> void addQuestion(T question) throws Exception;
 

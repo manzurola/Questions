@@ -1,6 +1,4 @@
-package com.manzurola.questions;
-
-import com.manzurola.questions.Question;
+package com.manzurola.prodigy.questions;
 
 import java.io.Closeable;
 import java.io.IOException;

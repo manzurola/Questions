@@ -1,9 +1,7 @@
-package com.manzurola.questions.data;
+package com.manzurola.prodigy.questions.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manzurola.questions.Question;
-import com.manzurola.questions.FillInTheBlanks;
-import com.manzurola.questions.RewriteTheSentence;
+import com.manzurola.prodigy.questions.Question;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -22,25 +20,25 @@ import java.util.Map;
 /**
  * Created by guym on 16/05/2017.
  */
-public class ElasticsearchRepository implements Repository {
+public class ElasticsearchQuestionRepository implements QuestionRepository {
 
     private final TransportClient client;
     private final ObjectMapper mapper;
     private final String index;
     private final Map<Class<?>, String> mappedTypes;
 
-    public ElasticsearchRepository(TransportClient client, ObjectMapper mapper, String index) {
+    public ElasticsearchQuestionRepository(TransportClient client, ObjectMapper mapper, String index) {
         this.client = client;
         this.mapper = mapper;
         this.index = index;
         this.mappedTypes = new HashMap<>();
-        mappedTypes.put(FillInTheBlanks.class, "fill_in_the_blanks");
-        mappedTypes.put(RewriteTheSentence.class, "rewrite_the_sentence");
+//        mappedTypes.put(FillInTheBlanks.class, "fill_in_the_blanks");
+//        mappedTypes.put(RewriteTheSentence.class, "rewrite_the_sentence");
     }
 
     @Override
     public <T extends Question> void addQuestion(T question) throws Exception {
-        IndexRequestBuilder requestBuilder = client.prepareIndex(index, getMappedType(question.getClass()), question.getId());
+        IndexRequestBuilder requestBuilder = client.prepareIndex(index, getMappedType(question.getClass()), question.getId().getId());
         requestBuilder.setSource(mapper.writeValueAsBytes(question), XContentType.JSON).get();
     }
 

@@ -1,9 +1,12 @@
-package com.manzurola.questions;
+package com.manzurola.prodigy.questions;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.manzurola.questions.data.ElasticsearchRepository;
-import com.manzurola.questions.data.Repository;
-import com.manzurola.questions.rest.api.v1.QuestionController;
+import com.manzurola.prodigy.questions.data.ElasticsearchQuestionRepository;
+import com.manzurola.prodigy.questions.rest.api.v1.QuestionController;
+import com.manzurola.prodigy.questions.data.QuestionRepository;
+import com.manzurola.prodigy.users.data.MysqlUserRepository;
+import com.manzurola.prodigy.users.data.UserRepository;
+import com.mysql.cj.jdbc.MysqlDataSource;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -19,7 +22,9 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.jdbc.core.JdbcTemplate;
 
+import javax.sql.DataSource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
@@ -27,7 +32,7 @@ import java.net.UnknownHostException;
  * Created by guym on 17/05/2017.
  */
 @Configuration
-@PropertySource("classpath:application.properties")
+@PropertySource({ "classpath:application-${prodigyEnvTarget}.properties" })
 public class Application {
 
     @Value("${jetty.port}")
@@ -39,14 +44,51 @@ public class Application {
     @Value("${elasticsearch.index}")
     private String elasticsearchIndex;
 
+    @Value("${mysql.database}")
+    private String mysqlDatabase;
+
+    @Value("${mysql.user}")
+    private String mysqlUser;
+
+    @Value("${mysql.password}")
+    private String mysqlPassword;
+
+    @Value("${mysql.host}")
+    private String mysqlHost;
+
+    @Value("${mysql.port}")
+    private int mysqlPort;
+
+
     public static void main(String[] args) throws Exception {
         Application application = new Application();
         application.run();
     }
 
     @Bean
-    public Repository repository() throws Exception {
-        return new ElasticsearchRepository(transportClient(), objectMapper(), elasticsearchIndex);
+    public DataSource dataSource() {
+        MysqlDataSource dataSource = new MysqlDataSource();
+        dataSource.setDatabaseName(mysqlDatabase);
+        dataSource.setUser(mysqlUser);
+        dataSource.setPassword(mysqlPassword);
+        dataSource.setServerName(mysqlHost);
+        dataSource.setPort(mysqlPort);
+        return dataSource;
+    }
+
+    @Bean
+    public JdbcTemplate jdbcTemplate() {
+        return new JdbcTemplate(dataSource());
+    }
+
+    @Bean
+    public QuestionRepository questionRepository() throws Exception {
+        return new ElasticsearchQuestionRepository(transportClient(), objectMapper(), elasticsearchIndex);
+    }
+
+    @Bean
+    public UserRepository userRepository() {
+        return new MysqlUserRepository(jdbcTemplate());
     }
 
     @Bean
@@ -66,7 +108,7 @@ public class Application {
 
     @Bean
     public QuestionController questionContoller() throws Exception {
-        return new QuestionController(repository());
+        return new QuestionController(questionRepository());
     }
 
     @Bean

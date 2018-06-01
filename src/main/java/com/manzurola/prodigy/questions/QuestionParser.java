@@ -1,7 +1,5 @@
-package com.manzurola.questions;
+package com.manzurola.prodigy.questions;
 
-
-import com.manzurola.questions.Question;
 
 /**
  * Created by guym on 24/05/2017.

@@ -1,8 +1,9 @@
-package com.manzurola.questions;
+package com.manzurola.prodigy.questions;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.manzurola.prodigy.common.Guid;
 
 import java.util.List;
 import java.util.Objects;
@@ -12,9 +13,9 @@ import java.util.UUID;
  * Created by guym on 16/05/2017.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public abstract class Question {
+public class Question {
 
-    private final String id;
+    private final Guid<Question> id;
     private final String body;
     private final List<String> answerKey;
     private final String instructions;
@@ -22,17 +23,8 @@ public abstract class Question {
     private final String source;
     private final String version; // to reference the parser version
 
-    public Question(String body,
-                    List<String> answerKey,
-                    String subject,
-                    String instructions,
-                    String source,
-                    String version) {
-        this(UUID.randomUUID().toString(), body, answerKey, subject, instructions, source, version);
-    }
-
     @JsonCreator
-    public Question(@JsonProperty("id") String id,
+    public Question(@JsonProperty("id") Guid<Question> id,
                     @JsonProperty("body") String body,
                     @JsonProperty("answerKey") List<String> answerKey,
                     @JsonProperty("subject") String subject,
@@ -53,7 +45,7 @@ public abstract class Question {
     }
 
     @JsonProperty("id")
-    public String getId() {
+    public Guid<Question> getId() {
         return id;
     }
 

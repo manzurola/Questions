@@ -1,4 +1,4 @@
-package com.manzurola.questions;
+package com.manzurola.prodigy.questions;
 
 import com.opencsv.CSVReader;
 
