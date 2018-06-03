@@ -1,9 +1,9 @@
-package com.manzurola.prodigy.questions;
+package com.manzurola.prodigy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manzurola.prodigy.questions.data.ElasticsearchQuestionRepository;
-import com.manzurola.prodigy.questions.rest.api.v1.QuestionController;
 import com.manzurola.prodigy.questions.data.QuestionRepository;
+import com.manzurola.prodigy.questions.rest.api.v1.QuestionController;
 import com.manzurola.prodigy.users.data.MysqlUserRepository;
 import com.manzurola.prodigy.users.data.UserRepository;
 import com.mysql.cj.jdbc.MysqlDataSource;
@@ -32,7 +32,7 @@ import java.net.UnknownHostException;
  * Created by guym on 17/05/2017.
  */
 @Configuration
-@PropertySource({ "classpath:application-${prodigyEnvTarget}.properties" })
+@PropertySource({"classpath:application-${prodigyEnvTarget}.properties"})
 public class Application {
 
     @Value("${jetty.port}")

@@ -1,7 +1,7 @@
 package com.manzurola.prodigy.users;
 
 import com.manzurola.prodigy.common.Guid;
-import com.manzurola.prodigy.questions.Application;
+import com.manzurola.prodigy.Application;
 import com.manzurola.prodigy.users.data.User;
 import com.manzurola.prodigy.users.data.UserRepository;
 import org.junit.Assert;

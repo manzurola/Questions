@@ -18,6 +18,7 @@
         <elastic.version>5.4.0</elastic.version>
         <log4j.version>2.7</log4j.version>
         <mysql.version>8.0.11</mysql.version>
+        <jetty.version>9.2.3.v20140905</jetty.version>
     </properties>
 
     <dependencies>
@@ -29,12 +30,12 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-server</artifactId>
-            <version>9.2.3.v20140905</version>
+            <version>${jetty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
-            <version>9.2.3.v20140905</version>
+            <version>${jetty.version}</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.core</groupId>
