@@ -2,7 +2,6 @@ package com.manzurola.prodigy.questions.data;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manzurola.prodigy.questions.Question;
-import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.xcontent.XContentType;
@@ -13,59 +12,53 @@ import org.elasticsearch.search.SearchHit;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by guym on 16/05/2017.
  */
 public class ElasticsearchQuestionRepository implements QuestionRepository {
 
+    private final String index = "questions_en";
+    private final String mappedType = "question";
     private final TransportClient client;
     private final ObjectMapper mapper;
-    private final String index;
-    private final Map<Class<?>, String> mappedTypes;
 
-    public ElasticsearchQuestionRepository(TransportClient client, ObjectMapper mapper, String index) {
+    public ElasticsearchQuestionRepository(TransportClient client, ObjectMapper mapper) {
         this.client = client;
         this.mapper = mapper;
-        this.index = index;
-        this.mappedTypes = new HashMap<>();
-//        mappedTypes.put(FillInTheBlanks.class, "fill_in_the_blanks");
-//        mappedTypes.put(RewriteTheSentence.class, "rewrite_the_sentence");
     }
 
     @Override
-    public <T extends Question> void addQuestion(T question) throws Exception {
-        IndexRequestBuilder requestBuilder = client.prepareIndex(index, getMappedType(question.getClass()), question.getId().getId());
-        requestBuilder.setSource(mapper.writeValueAsBytes(question), XContentType.JSON).get();
+    public void add(Question question) throws Exception {
+        client.prepareIndex(index, mappedType)
+                .setSource(mapper.writeValueAsBytes(question), XContentType.JSON).get();
     }
 
     @Override
-    public <T extends Question> void addQuestions(List<T> questions) throws Exception {
+    public void add(List<Question> questions) throws Exception {
         for (Question question : questions) {
-            addQuestion(question);
+            add(question);
         }
     }
 
     @Override
-    public <T extends Question> void deleteQuestion(String id, Class<T> type) throws Exception {
-        client.prepareDelete(index, getMappedType(type), id).get();
+    public void delete(String id) throws Exception {
+        client.prepareDelete(index, mappedType, id).get();
     }
 
     @Override
-    public <T extends Question> void deleteQuestions(List<String> ids, Class<T> type) throws Exception {
+    public void delete(List<String> ids) throws Exception {
         for (String id : ids) {
-            deleteQuestion(id, type);
+            delete(id);
         }
     }
 
     @Override
-    public <T extends Question> List<T> searchQuestionsByAnswer(String termsInAnswer, Class<T> type) throws Exception {
+    public List<Question> searchByAnswer(String termsInAnswer) throws Exception {
         BoolQueryBuilder boolQuery = new BoolQueryBuilder();
         boolQuery.must(QueryBuilders.matchQuery("answerKey", termsInAnswer));
-        return search(boolQuery, type);
+        return search(boolQuery);
     }
 
 //    @Override
@@ -83,19 +76,16 @@ public class ElasticsearchQuestionRepository implements QuestionRepository {
 //        return search(boolQuery);
 //    }
 
-    private <T extends Question> List<T> search(QueryBuilder query, Class<T> type) throws IOException {
-        SearchResponse response = client.prepareSearch(index).setTypes(getMappedType(type))
+    private List<Question> search(QueryBuilder query) throws IOException {
+        SearchResponse response = client.prepareSearch(index)
+                .setTypes(mappedType)
                 .setQuery(query)
                 .get();
-        List<T> results = new ArrayList<>();
+        List<Question> results = new ArrayList<>();
         for (SearchHit searchHit : response.getHits()) {
-            results.add(mapper.readValue(searchHit.getSourceAsString(), type));
+            results.add(mapper.readValue(searchHit.getSourceAsString(), Question.class));
         }
 
         return results;
-    }
-
-    private String getMappedType(Class<?> type) {
-        return mappedTypes.get(type);
     }
 }

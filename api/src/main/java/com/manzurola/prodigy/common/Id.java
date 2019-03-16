@@ -3,32 +3,19 @@ package com.manzurola.prodigy.common;
 import java.io.Serializable;
 import java.util.UUID;
 
-public class Guid<T> implements Serializable, Comparable<Guid<T>> {
-    public final String id;
+public class Id<T> implements Serializable, Comparable<Id<T>> {
+    private final String id;
 
-    public Guid(String id) {
+    public Id(String id) {
         this.id = id;
-        UUID.fromString(id.toLowerCase());
     }
 
-    public Guid(UUID id) {
-        this(id.toString());
+    public static <R> Id<R> of(String id) {
+        return new Id<>(id);
     }
 
-    public static <T> Guid<T> of(String id) {
-        return new Guid(id);
-    }
-
-    public static <T> Guid<T> of(UUID id) {
-        return new Guid(id);
-    }
-
-    public static <T> Guid<T> random() {
-        return of(UUID.randomUUID());
-    }
-
-    public <R> Guid<R> asIdOf(Class<R> type) {
-        return of(this.getId());
+    public static <R> Id<R> next() {
+        return of(UUID.randomUUID().toString());
     }
 
     public String getId() {
@@ -38,8 +25,8 @@ public class Guid<T> implements Serializable, Comparable<Guid<T>> {
     public final boolean equals(Object o) {
         if (this == o) {
             return true;
-        } else if (o != null && o instanceof Guid) {
-            Guid guid1 = (Guid) o;
+        } else if (o != null && o instanceof Id) {
+            Id guid1 = (Id) o;
             if (this.id != null) {
                 if (!this.id.equals(guid1.id)) {
                     return false;
@@ -58,7 +45,7 @@ public class Guid<T> implements Serializable, Comparable<Guid<T>> {
         return this.id != null ? this.id.hashCode() : 0;
     }
 
-    public int compareTo(Guid<T> o) {
+    public int compareTo(Id<T> o) {
         return this.id.compareTo(o.id);
     }
 

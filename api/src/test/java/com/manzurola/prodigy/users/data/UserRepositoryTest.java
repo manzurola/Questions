@@ -1,9 +1,6 @@
-package com.manzurola.prodigy.users;
+package com.manzurola.prodigy.users.data;
 
-import com.manzurola.prodigy.common.Guid;
 import com.manzurola.prodigy.Application;
-import com.manzurola.prodigy.users.data.User;
-import com.manzurola.prodigy.users.data.UserRepository;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,11 +15,14 @@ public class UserRepositoryTest {
     @Autowired
     private UserRepository repository;
 
-    @Test
-    public void add() {
-        User expected = new User(Guid.random(), "prodigy@prodigy.com");
-        User actual = repository.add(expected.getId(), expected.getEmail());
+    @Autowired
+    private UserFactory factory;
 
-        Assert.assertEquals(expected, actual);
+    @Test
+    public void add() throws Exception {
+        User expected = factory.create("prodigy@prodigy.com");
+        repository.add(expected);
+
+        Assert.assertEquals(expected, repository.get(expected.getId()));
     }
 }

@@ -1,10 +1,8 @@
 package com.manzurola.prodigy.users.data;
 
-import com.manzurola.prodigy.common.Guid;
-
 public interface UserRepository {
 
-    User add(Guid<User> id, String email);
+    void add(User user) throws Exception;
 
-    User get(Guid<User> id);
+    User get(String id) throws Exception;
 }

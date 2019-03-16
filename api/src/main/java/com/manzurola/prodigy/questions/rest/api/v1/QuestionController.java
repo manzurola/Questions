@@ -30,7 +30,7 @@ public class QuestionController {
     @Path("/{type}")
     @Produces(MediaType.APPLICATION_JSON)
     public List<Question> searchQuestions(@PathParam("type") String type, @QueryParam("answer") String answer) throws Exception {
-        List<? extends Question> questions = questionRepository.searchQuestionsByAnswer(answer, mappedType.get(type));
+        List<? extends Question> questions = questionRepository.searchByAnswer(answer);
         List<Question> result = new ArrayList<>();
         for (Question question : questions) {
             result.add(question);

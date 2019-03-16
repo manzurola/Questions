@@ -1,10 +1,15 @@
 package com.manzurola.prodigy;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
+import com.manzurola.prodigy.common.DataStore;
+import com.manzurola.prodigy.common.ElasticsearchDataStore;
 import com.manzurola.prodigy.questions.data.ElasticsearchQuestionRepository;
 import com.manzurola.prodigy.questions.data.QuestionRepository;
 import com.manzurola.prodigy.questions.rest.api.v1.QuestionController;
-import com.manzurola.prodigy.users.data.MysqlUserRepository;
+import com.manzurola.prodigy.users.data.ElasticsearchUserRepository;
+import com.manzurola.prodigy.users.data.UserFactory;
+import com.manzurola.prodigy.users.data.UserFactoryImpl;
 import com.manzurola.prodigy.users.data.UserRepository;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import org.eclipse.jetty.server.Server;
@@ -27,6 +32,9 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import javax.sql.DataSource;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import static com.fasterxml.jackson.annotation.JsonAutoDetect.Visibility.ANY;
+import static com.fasterxml.jackson.annotation.PropertyAccessor.FIELD;
 
 /**
  * Created by guym on 17/05/2017.
@@ -82,13 +90,23 @@ public class Application {
     }
 
     @Bean
-    public QuestionRepository questionRepository() throws Exception {
-        return new ElasticsearchQuestionRepository(transportClient(), objectMapper(), elasticsearchIndex);
+    public DataStore dataStore(TransportClient client, ObjectMapper mapper, ElasticsearchDataStore.Mappings mappings) {
+        return new ElasticsearchDataStore(client, mapper, mappings);
     }
 
     @Bean
-    public UserRepository userRepository() {
-        return new MysqlUserRepository(jdbcTemplate());
+    public QuestionRepository questionRepository() throws Exception {
+        return new ElasticsearchQuestionRepository(transportClient(), objectMapper());
+    }
+
+    @Bean
+    public UserRepository userRepository() throws UnknownHostException {
+        return new ElasticsearchUserRepository(transportClient(), objectMapper());
+    }
+
+    @Bean
+    public UserFactory userFactory() {
+        return new UserFactoryImpl();
     }
 
     @Bean
@@ -103,7 +121,16 @@ public class Application {
 
     @Bean
     public ObjectMapper objectMapper() {
-        return new ObjectMapper();
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new ParameterNamesModule());
+        mapper.setVisibility(FIELD, ANY);
+
+        return mapper;
+    }
+
+    @Bean
+    public ElasticsearchDataStore.Mappings elasticsearchDataStoreMappings() {
+        return new ElasticsearchDataStore.Mappings();
     }
 
     @Bean

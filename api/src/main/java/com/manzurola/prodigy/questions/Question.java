@@ -3,11 +3,10 @@ package com.manzurola.prodigy.questions;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.manzurola.prodigy.common.Guid;
+import com.manzurola.prodigy.common.Id;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.UUID;
 
 /**
  * Created by guym on 16/05/2017.
@@ -15,7 +14,7 @@ import java.util.UUID;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Question {
 
-    private final Guid<Question> id;
+    private final Id<Question> id;
     private final String body;
     private final List<String> answerKey;
     private final String instructions;
@@ -24,7 +23,7 @@ public class Question {
     private final String version; // to reference the parser version
 
     @JsonCreator
-    public Question(@JsonProperty("id") Guid<Question> id,
+    public Question(@JsonProperty("id") Id<Question> id,
                     @JsonProperty("body") String body,
                     @JsonProperty("answerKey") List<String> answerKey,
                     @JsonProperty("subject") String subject,
@@ -45,7 +44,7 @@ public class Question {
     }
 
     @JsonProperty("id")
-    public Guid<Question> getId() {
+    public Id<Question> getId() {
         return id;
     }
 
